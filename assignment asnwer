@@ -1,0 +1,102 @@
+Q 1
+
+public static int findNewIndex(List<String> oldQueue, int currentIndex, List<String> newQueue) {
+    // Identify the Current Index Member in the Old Task Queue
+    String currentMember = oldQueue.get(currentIndex);
+    
+    // Remove inactive members from the Old Task Queue to obtain the new reduced queue
+    List<String> reducedQueue = new ArrayList<>();
+    for (String member : oldQueue) {
+        if (newQueue.contains(member)) {
+            reducedQueue.add(member);
+        }
+    }
+    
+    // Find the position of the Current Index Member in the new reduced queue
+    int currentIdxReduced = reducedQueue.indexOf(currentMember);
+    
+    // If the Current Index Member is still active in the new reduced queue, return its index in the new reduced queue
+    if (newQueue.contains(currentMember)) {
+        return newQueue.indexOf(currentMember);
+    }
+    
+    // If the Current Index Member is not active in the new reduced queue, find the next available member in the new reduced queue, starting from the position of the Current Index Member in the new reduced queue
+    for (int i = currentIdxReduced; i < reducedQueue.size(); i++) {
+        String member = reducedQueue.get(i);
+        if (newQueue.contains(member)) {
+            return newQueue.indexOf(member);
+        }
+    }
+   // If no next available member is found, return -1 to indicate failure
+    return -1;
+}
+
+
+
+Q 2
+
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class LinkedList {
+    Node head;
+
+    public LinkedList() {
+        this.head = null;
+    }
+
+    public void insert(int data) {
+        Node newNode = new Node(data);
+        if (this.head == null) {
+            this.head = newNode;
+        } else {
+            Node current = this.head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    public int getMiddle() {
+        if (this.head == null) {
+            throw new IllegalStateException("Linked list is empty");
+        }
+
+        Node slow = this.head;
+        Node fast = this.head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow.data;
+    }
+
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list.insert(1);
+        list.insert(2);
+        list.insert(3);
+        list.insert(4);
+        list.insert(5);
+        System.out.println(list.getMiddle()); // Output: 3
+
+        LinkedList list2 = new LinkedList();
+        list2.insert(1);
+        list2.insert(2);
+        list2.insert(3);
+        list2.insert(4);
+        list2.insert(5);
+        list2.insert(6);
+        System.out.println(list2.getMiddle()); // Output: 4
+    }
+}
